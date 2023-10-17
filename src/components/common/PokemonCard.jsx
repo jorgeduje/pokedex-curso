@@ -1,9 +1,16 @@
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
 
 export default function PokemonCard({ pokemon }) {
+  const navigation = useNavigation();
+
   return (
-    <TouchableOpacity onPress={() => console.log("seleccione un pokemon")}>
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate("PokemonScreen", { pokemonSelected: pokemon })
+      }
+    >
       <View style={{ ...styles.cardContainer, backgroundColor: pokemon.color }}>
         <Text style={styles.name}>
           {pokemon.name} {pokemon.id}

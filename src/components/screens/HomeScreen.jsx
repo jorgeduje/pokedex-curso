@@ -10,8 +10,11 @@ import {
 } from "react-native";
 import PokemonCard from "../common/PokemonCard";
 
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 export default function HomeScreen() {
   const { pokemonList, loadPokemons } = usePokemonPaginate();
+  const { top } = useSafeAreaInsets();
 
   return (
     <>
@@ -26,7 +29,18 @@ export default function HomeScreen() {
             numColumns={2}
             keyExtractor={(pokemon) => String(pokemon.id)}
             renderItem={({ item }) => <PokemonCard pokemon={item} />}
-            ListHeaderComponent={<Text style={styles.title}>Pokedex</Text>}
+            ListHeaderComponent={
+              <Text
+                style={{
+                  ...styles.title,
+                  top: top + 20,
+                  marginBottom: 40,
+                  paddingBottom: 10,
+                }}
+              >
+                Pokedex
+              </Text>
+            }
             showsVerticalScrollIndicator={false}
             ListFooterComponent={
               <ActivityIndicator style={{ height: 200 }} size={50} />
