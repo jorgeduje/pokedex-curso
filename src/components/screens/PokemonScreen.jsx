@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { usePokemon } from "../../hooks/usePokemon";
@@ -8,14 +8,18 @@ import { AntDesign } from "@expo/vector-icons";
 import { Image } from "react-native";
 import PokemonDetail from "../common/PokemonDetail";
 import { ActivityIndicator } from "react-native";
+import { FavoritesContext } from "../../context/FavoritesContext";
 
 export default function PokemonScreen({ route, navigation }) {
   const { top } = useSafeAreaInsets();
   const { pokemonSelected } = route.params;
 
   const { pokemon, isLoading } = usePokemon(pokemonSelected.id);
-  console.log(pokemon);
 
+  const { handleFavorites, favorites } = useContext(FavoritesContext);
+  const isInFavorites = favorites.some(
+    (elemento) => elemento.id === pokemonSelected.id
+  );
   return (
     <View style={{ flex: 1 }}>
       {/* ACA VA EL HEADER  */}
@@ -30,9 +34,13 @@ export default function PokemonScreen({ route, navigation }) {
         </TouchableOpacity>
         <TouchableOpacity
           style={{ ...styles.favoriteIcon, top: top + 5 }}
-          // onPress={() => navigation.goBack()}
+          onPress={() => handleFavorites(pokemonSelected)}
         >
-          <AntDesign name="heart" color={"white"} size={30} />
+          <AntDesign
+            name="heart"
+            color={isInFavorites ? "red" : "white"}
+            size={30}
+          />
         </TouchableOpacity>
 
         <Text style={{ ...styles.title, top: top + 35 }}>

@@ -52,13 +52,32 @@ export default function PokemonDetail({ pokemon }) {
           ))}
         </View>
 
-        <View style={styles.containerAbilities}>
+        <View>
           <Text style={styles.title}>Movimientos</Text>
-          {pokemon.moves.map(({ move }) => (
-            <Text key={move.name} style={styles.typesText}>
-              # {move.name}
-            </Text>
-          ))}
+          <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+            {pokemon.moves.map(({ move }) => (
+              <Text key={move.name} style={styles.typesText}>
+                # {move.name}
+              </Text>
+            ))}
+          </View>
+        </View>
+        <View style={{ marginBottom: 70 }}>
+          <Text style={styles.title}>Stats</Text>
+          <View>
+            {pokemon.stats.map(({ stat, base_stat }, i) => {
+              return (
+                <View key={stat.name + i} style={{ flexDirection: "row" }}>
+                  <Text style={{ ...styles.typesText, width: 150 }}>
+                    {stat.name}
+                  </Text>
+                  <Text style={{ ...styles.typesText, fontWeight: "bold" }}>
+                    {base_stat}
+                  </Text>
+                </View>
+              );
+            })}
+          </View>
         </View>
       </View>
     </ScrollView>
@@ -82,9 +101,5 @@ const styles = StyleSheet.create({
   miniPicture: {
     width: 90,
     height: 90,
-  },
-  containerAbilities: {
-    // marginHorizontal: 20,
-    paddingBottom: 200,
   },
 });
